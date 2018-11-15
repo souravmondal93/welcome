@@ -1,0 +1,16 @@
+<mat-card class="image-upload__card">
+  <div>
+      <button mat-raised-button color="primary" (click)="fileInput.click()">
+        <mat-icon class="example-icon">attach_file</mat-icon>
+        <span>Select</span>
+        <input #fileInput type="file" (change)="onFileInput($event)" style="display:none;" />
+      </button>
+  </div>
+  
+  <div style="margin-top: 20px">
+      <button mat-raised-button color="primary" (click)="uploadImage()">
+        <mat-icon class="example-icon">image_search</mat-icon>
+        <span>Upload Image</span>
+      </button>
+  </div>
+</mat-card>
