@@ -3,15 +3,17 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule }    from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
-import { MatToolbarModule, MatIconModule, MatCardModule, MatButtonModule } from '@angular/material';
+import { MatToolbarModule, MatIconModule, MatCardModule, MatButtonModule, MatProgressSpinnerModule } from '@angular/material';
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { ImageUploaderComponent } from './image-uploader/image-uploader.component';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   declarations: [
     NavbarComponent,
-    ImageUploaderComponent
+    ImageUploaderComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -20,11 +22,13 @@ import { ImageUploaderComponent } from './image-uploader/image-uploader.componen
     MatToolbarModule,
     MatIconModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     NavbarComponent,
-    ImageUploaderComponent
+    ImageUploaderComponent,
+    LoaderComponent
   ]
 })
 export class ComponentsModule { }

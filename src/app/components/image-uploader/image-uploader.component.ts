@@ -40,6 +40,8 @@ export class ImageUploaderComponent implements OnInit {
     }
   }
 
+  public loading: Boolean = false;
+
   constructor(private _http: HttpClient) { }
 
   ngOnInit() {
@@ -54,7 +56,6 @@ export class ImageUploaderComponent implements OnInit {
         if (onloadEvent.target.result) {
           this._imageData = onloadEvent.target.result.substring(onloadEvent.target.result.indexOf(',') + 1);
           this._requestPayload.requests[0].image.content = this._imageData;
-          console.log(this._imageData);
         }
       };
 		}
@@ -65,6 +66,7 @@ export class ImageUploaderComponent implements OnInit {
       params: new HttpParams()
         .set('key', this._apiKey),
     };
+    this.loading = true;
     this._http.post(this._visionApiUrl, this._requestPayload, httpOptions)
     .subscribe((response: any) => {
       let speechArray = response.responses[0].fullTextAnnotation.text.replace(/[^A-Za-z\s]/gi, '').replace(/\n/g, ' ').trim().split(' ');
@@ -72,7 +74,8 @@ export class ImageUploaderComponent implements OnInit {
       console.log('User', speechArray);
       const location = speechArray.splice(-1,1);
       const speechText = `Welcome ${speechArray.join(' ')} from ${location}`
-      this._speechRequestPayload.input.text = speechText;
+      // this._speechRequestPayload.input.text = speechText;
+      this._speechRequestPayload.input.text = `Please wait, while we process your data.`;
 
       this._http.post(this._speechApiUrl, this._speechRequestPayload, httpOptions)
       .subscribe((response: any) => {
@@ -80,9 +83,11 @@ export class ImageUploaderComponent implements OnInit {
         new Audio('data:audio/mp3;base64,' + response.audioContent).play();
       }, error => {
         console.error('Speech API Error', error);
+      }, () => {
+        this.loading = false;
       });
-
     }, error => {
+      this.loading = false;
       console.error('Vision API Error', error);
     });
   }
